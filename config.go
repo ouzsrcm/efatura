@@ -24,7 +24,7 @@ func GetConfig(params ...string) Config {
 	if len(params) > 0 {
 		env = params[0]
 	}
-	fileName := fmt.Sprintf("./%sconfig.json", env)
+	fileName := fmt.Sprintf("./%s_config.json", env)
 	gonfig.GetConf(fileName, &conf)
 	return conf
 }
