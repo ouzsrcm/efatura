@@ -22,7 +22,8 @@ func getUrl() string {
 }
 
 func main() {
-	fmt.Println(getUrl())
+	inv := CreateDraftInvoiceAsJson()
+	fmt.Println(inv)
 }
 
 func enableTestMode() {

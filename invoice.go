@@ -2,7 +2,7 @@ package main
 
 import "encoding/json"
 
-func createDraftInvoice() Invoice {
+func CreateDraftInvoice() Invoice {
 	invoice := Invoice{
 		FaturaUuidstring:             "",
 		BelgeNumarasi:                "",
@@ -98,8 +98,8 @@ func createDraftInvoice() Invoice {
 	return invoice
 }
 
-func createDraftInvoiceAsJson() string {
-	invoice := createDraftInvoice()
+func CreateDraftInvoiceAsJson() string {
+	invoice := CreateDraftInvoice()
 	json, _ := json.Marshal(invoice)
 	return string(json)
 }
