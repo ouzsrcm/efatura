@@ -22,8 +22,10 @@ func getToken(username string, password string) {
 	// }()
 	// defer r.Close()
 
+	config := GetConfig()
+
 	loginType := "anologin" //anologin:prod or login:test
-	if !PRODUCTION {
+	if !config.Env.PRODUCTION {
 		loginType = "login"
 	}
 
