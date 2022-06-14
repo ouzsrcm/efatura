@@ -1,0 +1,11 @@
+{
+  "Env": {
+    "PRODUCTION": true,
+    "PRODURL": "https://earsivportal.efatura.gov.tr",
+    "TESTURL": "https://earsivportaltest.efatura.gov.tr"
+  },
+  "Credentials": {
+    "USERNAME": "test",
+    "PASSWORD": "test"
+  }
+}
