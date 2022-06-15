@@ -2,6 +2,7 @@ package invoice
 
 import (
 	"fmt"
+	"invoicer/pkg/common"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -12,7 +13,7 @@ func Init() {
 	fmt.Println("started...")
 }
 
-func getToken(username string, password string) {
+func GetToken(username string, password string) string {
 	client := &http.Client{}
 
 	// r, w := io.Pipe()
@@ -22,23 +23,29 @@ func getToken(username string, password string) {
 	// }()
 	// defer r.Close()
 
-	config := GetConfig()
-
 	loginType := "anologin" //anologin:prod or login:test
-	if !config.Env.PRODUCTION {
+	if !common.Configuration().Env.PRODUCTION {
 		loginType = "login"
 	}
 
 	r := ioutil.NopCloser(strings.NewReader("assoscmd=" + loginType + "&rtype=json&userid=" + username + "&sifre=" + password + "&sifre2=" + password + "&parola=1&"))
 
-	req := getRequest("/earsiv-services/assos-login/", getUrl()+"/earsiv-services/intragiris.html", r, "POST")
-	client.Do(req)
-
+	req := getRequest("/earsiv-services/assos-login/", common.Configuration().Env.TESTURL+"/earsiv-services/intragiris.html", r, "POST")
+	res, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer req.Body.Close()
+	b, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+	return string(b)
 }
 
 func getRequest(url string, referrer string, body io.ReadCloser, method string) *http.Request {
 
-	req, err := http.NewRequest(method, getUrl()+url, body)
+	req, err := http.NewRequest(method, common.Configuration().Env.TESTURL+url, body)
 	if err != nil {
 		panic(err)
 	}
