@@ -11,11 +11,11 @@ type Config struct {
 		PRODUCTION bool
 		PRODURL    string
 		TESTURL    string
-	} `yam:"ENV"`
+	}
 	Credentials struct {
 		USERNAME string
 		PASSWORD string
-	} `yaml:"credentials"`
+	}
 }
 
 func GetConfig(params ...string) Config {
