@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"invoicer/config"
 )
 
 func main() {
-	config := GetConfig("dev")
-	fmt.Println(config.Env.PRODURL)
+	cfg := config.GetConfig("dev")
+	fmt.Println(cfg.Env.PRODURL)
 }

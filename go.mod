@@ -1,4 +1,4 @@
-module invoicer.com/invoice
+module invoicer
 
 go 1.18
 
