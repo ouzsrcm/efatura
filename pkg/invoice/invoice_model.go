@@ -1,109 +1,5 @@
 package invoice
 
-import "encoding/json"
-
-func CreateDraftInvoice() Invoice {
-	invoice := Invoice{
-		FaturaUuidstring:             "",
-		BelgeNumarasi:                "",
-		FaturaTarihi:                 "",
-		Saat:                         "",
-		ParaBirimi:                   "",
-		DovzTLkur:                    "",
-		FaturaTipi:                   "",
-		HangiTip:                     "",
-		SiparisNumarasi:              "",
-		SiparisTarihi:                "",
-		IrsaliyeNumarasi:             "",
-		IrsaliyeTarihi:               "",
-		FisNo:                        "",
-		FisTarihi:                    "",
-		FisSaati:                     "",
-		FisTipi:                      "",
-		ZRaporNo:                     "",
-		OkcSeriNo:                    "",
-		VknTckn:                      "",
-		AliciUnvan:                   "",
-		AliciAdi:                     "",
-		AliciSoyadi:                  "",
-		Bulvarcaddesokak:             "",
-		BinaAdi:                      "",
-		BinaNo:                       "",
-		KapiNo:                       "",
-		KasabaKoy:                    "",
-		MahalleSemtIlce:              "",
-		Sehir:                        "",
-		Ulke:                         "",
-		PostaKodu:                    "",
-		Tel:                          "",
-		Fax:                          "",
-		Eposta:                       "",
-		Websitesi:                    "",
-		VergiDairesi:                 "",
-		KomisyonOrani:                "",
-		NavlunOrani:                  "",
-		HammaliyeOrani:               "",
-		NakliyeOrani:                 "",
-		KomisyonTutari:               "",
-		NavlunTutari:                 "",
-		HammaliyeTutari:              "",
-		NakliyeTutari:                "",
-		KomisyonKDVOrani:             "",
-		NavlunKDVOrani:               "",
-		HammaliyeKDVOrani:            "",
-		NakliyeKDVOrani:              "",
-		KomisyonKDVTutari:            "",
-		NavlunKDVTutari:              "",
-		HammaliyeKDVTutari:           "",
-		NakliyeKDVTutari:             "",
-		GelirVergisiOrani:            "",
-		BagkurTevkifatiOrani:         "",
-		GelirVergisiTevkifatiTutari:  "",
-		BagkurTevkifatiOrani2:        "",
-		GelirVergisiTevkifatiTutari2: "",
-		BagkurTevkifatiTutari:        "",
-		HalRusumuOrani:               "",
-		TicaretBorsasiOrani:          "",
-		MilliSavunmaFonuOrani:        "",
-		DigerOrani:                   "",
-		HalRusumuTutari:              "",
-		TicaretBorsasiTutari:         "",
-		MilliSavunmaFonuTutari:       "",
-		DigerTutari:                  "",
-		HalRusumuKDVOrani:            "",
-		TicaretBorsasiKDVOrani:       "",
-		MilliSavunmaFonuKDVOrani:     "",
-		DigerKDVOrani:                "",
-		HalRusumuKDVTutari:           "",
-		TicaretBorsasiKDVTutari:      "",
-		MilliSavunmaFonuKDVTutari:    "",
-		DigerKDVTutari:               "",
-		IadeTable:                    "",
-		OzelMatrahTutari:             "",
-		OzelMatrahOrani:              "",
-		OzelMatrahVergiTutari:        "",
-		VergiCesidi:                  "",
-		MalHizmetTable:               nil,
-		Tip:                          "",
-		Matrah:                       "",
-		MalhizmetToplamTutari:        "",
-		ToplamIskonto:                "",
-		Hesaplanankdv:                "",
-		VergilerToplami:              "",
-		VergilerDahilToplamTutar:     "",
-		ToplamMasraflar:              "",
-		OdenecekTutar:                "",
-		Not:                          "",
-	}
-	return invoice
-}
-
-func CreateDraftInvoiceAsJson() string {
-	invoice := CreateDraftInvoice()
-	json, _ := json.Marshal(invoice)
-	return string(json)
-}
-
 type InvoiceDetail struct {
 	IskontoArttm      string `json:"iskontoArttm"`
 	MalHizmet         string `json:"malHizmet"`
@@ -122,7 +18,7 @@ type InvoiceDetail struct {
 }
 
 type Invoice struct {
-	FaturaUuidstring             string          `json:"faturaUuidstring"`
+	FaturaUuid                   string          `json:"faturaUuidstring"`
 	BelgeNumarasi                string          `json:"belgeNumarasi"`
 	FaturaTarihi                 string          `json:"faturaTarihi"`
 	Saat                         string          `json:"saat"`
