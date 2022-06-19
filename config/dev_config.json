@@ -7,5 +7,51 @@
   "Credentials": {
     "USERNAME": "test",
     "PASSWORD": "test"
-  }
+  },
+  "Commands": [
+    {
+      "Name": "EARSIV_PORTAL_FATURA_OLUSTUR",
+      "Value": "RG_BASITFATURA"
+    },
+    {
+      "Name": "EARSIV_PORTAL_TASLAKLARI_GETIR",
+      "Value": "RG_BASITTASLAKLAR"
+    },
+    {
+      "Name": "EARSIV_PORTAL_ADIMA_KESILEN_BELGELERI_GETIR",
+      "Value": "RG_ALICI_TASLAKLAR"
+    },
+    {
+      "Name": "EARSIV_PORTAL_FATURA_HSM_CIHAZI_ILE_IMZALA",
+      "Value": "RG_BASITTASLAKLAR"
+    },
+    {
+      "Name": "EARSIV_PORTAL_FATURA_GOSTER",
+      "Value": "RG_BASITTASLAKLAR"
+    },
+    {
+      "Name": "EARSIV_PORTAL_FATURA_SIL",
+      "Value": "RG_BASITTASLAKLAR"
+    },
+    {
+      "Name": "SICIL_VEYA_MERNISTEN_BILGILERI_GETIR",
+      "Value": "RG_BASITFATURA"
+    },
+    {
+      "Name": "EARSIV_PORTAL_SMSSIFRE_GONDER",
+      "Value": "RG_SMSONAY"
+    },
+    {
+      "Name": "EARSIV_PORTAL_SMSSIFRE_DOGRULA",
+      "Value": "RG_SMSONAY"
+    },
+    {
+      "Name": "EARSIV_PORTAL_KULLANICI_BILGILERI_GETIR",
+      "Value": "RG_KULLANICI"
+    },
+    {
+      "Name": "EARSIV_PORTAL_KULLANICI_BILGILERI_KAYDET",
+      "Value": "RG_KULLANICI"
+    }
+  ]
 }

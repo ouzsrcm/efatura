@@ -54,6 +54,11 @@ func Logout(token string) string {
 	return string(b)
 }
 
+///TODO: ...
+func RunCommand(token string, command string) {
+
+}
+
 func GetRequest(url string, referrer string, body io.ReadCloser, method string) *http.Request {
 
 	req, err := http.NewRequest(method, common.Configuration().Env.TESTURL+url, body)

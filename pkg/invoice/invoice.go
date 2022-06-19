@@ -3,12 +3,17 @@ package invoice
 import (
 	"fmt"
 	"invoicer/pkg/common"
+	"time"
 )
 
 func Init() {
 	fmt.Println("started...")
 	token := GetToken("username", "password")
 	fmt.Print(token)
+}
+
+func GetAllInvoicesIssuedToMeByDateRange(token string, startdate time.Time, enddate time.Time) {
+
 }
 
 func CreateDraftInvoice() *Invoice {
