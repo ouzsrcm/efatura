@@ -7,7 +7,7 @@ import (
 )
 
 func Init() {
-	fmt.Println("started...")
+	fmt.Println("tokenization...")
 	token := GetToken()
 	fmt.Print(token)
 }

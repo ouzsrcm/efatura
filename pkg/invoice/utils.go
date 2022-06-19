@@ -1,6 +1,8 @@
 package invoice
 
 import (
+	"encoding/json"
+	"fmt"
 	"invoicer/config"
 	"invoicer/pkg/common"
 	"io"
@@ -44,7 +46,21 @@ func GetToken() string {
 	body_text := "assoscmd=" + assoscmd + "&rtype=json&userid=" + username + "&sifre=" + password + "&sifre2=" + password + "&parola=1"
 	req := GetRequest("/earsiv-services/assos-login", AsReadCloser(body_text))
 	res := RunRequest(*req)
-	return res
+	var data map[string]interface{}
+	json.Unmarshal([]byte(res), &data)
+	if data["error"] == "1" {
+		var str string
+		for _, v := range data["messages"].([]interface{}) {
+			for k, x := range v.(map[string]interface{}) {
+				str += fmt.Sprintf("error %v", k) + ":"
+				str += fmt.Sprintf("%v", x) + ", "
+			}
+		}
+		return str
+	} else if data["token"] != nil {
+		return data["token"].(string)
+	}
+	return "No token returned"
 }
 
 func Logout(token string) string {

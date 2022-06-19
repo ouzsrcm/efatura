@@ -11,3 +11,8 @@ type RequestOpts struct {
 	Method      string              `json:"method"`
 	Mode        string              `json:"mode"`
 }
+
+type GetTokenError struct {
+	Type string `json:"type"`
+	Text string `json:"text"`
+}
