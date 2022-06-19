@@ -1,18 +1,23 @@
 package invoice
 
 import (
+	"encoding/json"
 	"fmt"
+	"invoicer/config"
 	"invoicer/pkg/common"
 	"time"
 )
 
+var TOKEN string
+
 func Init() {
 	fmt.Println("tokenization...")
-	token := GetToken()
-	fmt.Print(token)
+	TOKEN = GetToken()
+	fmt.Print(TOKEN)
 }
 
-func GetAllInvoicesIssuedToMeByDateRange(token string, startdate time.Time, enddate time.Time) {
+func GetAllInvoicesByDateRange(token string, startdate time.Time, enddate time.Time) {
+	fmt.Println("get all invoices by date range...")
 
 }
 
@@ -125,5 +130,9 @@ func CreateDraftInvoice() *Invoice {
 		KdvTutari:         "",
 		VergininKdvTutari: "",
 	})
+	invoice_byte, _ := json.Marshal(invoice)
+	invoice_json := string(invoice_byte)
+	command := config.GetCommand("createDraftInvoice")
+	RunCommand(TOKEN, command.Name, command.Value, invoice_json)
 	return invoice
 }

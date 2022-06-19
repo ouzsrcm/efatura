@@ -30,8 +30,9 @@ type Config struct {
 }
 
 type Command struct {
-	Name  string
-	Value string
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 func GetConfig(params ...string) Config {
@@ -45,12 +46,12 @@ func GetConfig(params ...string) Config {
 	return conf
 }
 
-func GetCommand(commandName string) Command {
-	if commandName == "" {
-		panic("command name is empty")
+func GetCommand(commandId string) Command {
+	if commandId == "" {
+		panic("command id cannot be null")
 	}
 	commands := GetConfig().Commands
-	idx := slices.IndexFunc(commands, func(command Command) bool { return command.Name == commandName })
+	idx := slices.IndexFunc(commands, func(command Command) bool { return command.ID == commandId })
 	if idx == -1 {
 		panic("command not found")
 	}

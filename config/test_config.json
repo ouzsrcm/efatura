@@ -9,46 +9,57 @@
   },
   "Commands": [
     {
+      "ID": "createDraftInvoice",
       "Name": "EARSIV_PORTAL_FATURA_OLUSTUR",
       "Value": "RG_BASITFATURA"
     },
     {
+      "ID": "getAllInvoicesByDateRange",
       "Name": "EARSIV_PORTAL_TASLAKLARI_GETIR",
       "Value": "RG_BASITTASLAKLAR"
     },
     {
+      "ID": "getAllInvoicesIssuedToMeByDateRange",
       "Name": "EARSIV_PORTAL_ADIMA_KESILEN_BELGELERI_GETIR",
       "Value": "RG_ALICI_TASLAKLAR"
     },
     {
+      "ID": "signDraftInvoice",
       "Name": "EARSIV_PORTAL_FATURA_HSM_CIHAZI_ILE_IMZALA",
       "Value": "RG_BASITTASLAKLAR"
     },
     {
+      "ID": "getInvoiceHTML",
       "Name": "EARSIV_PORTAL_FATURA_GOSTER",
       "Value": "RG_BASITTASLAKLAR"
     },
     {
+      "ID": "cancelDraftInvoice",
       "Name": "EARSIV_PORTAL_FATURA_SIL",
       "Value": "RG_BASITTASLAKLAR"
     },
     {
+      "ID": "getRecipientDataByTaxIDOrTRID",
       "Name": "SICIL_VEYA_MERNISTEN_BILGILERI_GETIR",
       "Value": "RG_BASITFATURA"
     },
     {
+      "ID": "sendSignSMSCode",
       "Name": "EARSIV_PORTAL_SMSSIFRE_GONDER",
       "Value": "RG_SMSONAY"
     },
     {
+      "ID": "verifySMSCode",
       "Name": "EARSIV_PORTAL_SMSSIFRE_DOGRULA",
       "Value": "RG_SMSONAY"
     },
     {
+      "ID": "getUserData",
       "Name": "EARSIV_PORTAL_KULLANICI_BILGILERI_GETIR",
       "Value": "RG_KULLANICI"
     },
     {
+      "ID": "updateUserData",
       "Name": "EARSIV_PORTAL_KULLANICI_BILGILERI_KAYDET",
       "Value": "RG_KULLANICI"
     }
