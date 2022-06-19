@@ -27,7 +27,7 @@ func DefaultRequestOpts() RequestOpts {
 		Credentials: "include",
 		Headers: []RequestOptsHeader{
 			{Key: "Content-Type", Value: "application/x-www-form-urlencoded;charset=UTF-8"},
-			{Key: "Referrer", Value: config.Env.TESTURL + "/intragiris.html"},
+			{Key: "Referrer", Value: config.Env.BASEURL + "/intragiris.html"},
 			{Key: "ReferrerPolicy", Value: "no-referrer-when-downgrade"},
 			{Key: "Accept", Value: "*/*"},
 			{Key: "Accept-Language", Value: "tr,en-US;q=0.9,en;q=0.8"},
@@ -52,7 +52,7 @@ func GetToken(username string, password string) string {
 
 	r := ioutil.NopCloser(strings.NewReader("assoscmd=" + loginType + "&rtype=json&userid=" + username + "&sifre=" + password + "&sifre2=" + password + "&parola=1&"))
 
-	req := GetRequest("/earsiv-services/assos-login/", common.Configuration().Env.TESTURL+"/earsiv-services/intragiris.html", r)
+	req := GetRequest("/earsiv-services/assos-login/", common.Configuration().Env.BASEURL+"/earsiv-services/intragiris.html", r)
 	res := RunRequest(*req)
 	return res
 }
@@ -63,14 +63,14 @@ func Logout(token string) string {
 		env = "anologin"
 	}
 	body := ioutil.NopCloser((strings.NewReader("assoscmd=" + env + "&rtype=json&token=" + token + "&")))
-	req := GetRequest("/earsiv-services/assos-login", common.Configuration().Env.TESTURL+"/earsiv-services/intragiris.html", body)
+	req := GetRequest("/earsiv-services/assos-login", common.Configuration().Env.BASEURL+"/earsiv-services/intragiris.html", body)
 	res := RunRequest(*req)
 	return res
 }
 
 func RunCommand(token string, command string, pageName string, data string) string {
 	body_text := "cmd=" + command + "&callid=" + common.GetUUID() + "&pageName=" + pageName + "&token=" + token + "&jp=" + url.QueryEscape(data)
-	req := GetRequest("/earsiv-services/dispatch", common.Configuration().Env.TESTURL+"/earsiv-services/login.jsp", ioutil.NopCloser(strings.NewReader(body_text)))
+	req := GetRequest("/earsiv-services/dispatch", common.Configuration().Env.BASEURL+"/earsiv-services/login.jsp", ioutil.NopCloser(strings.NewReader(body_text)))
 	res := RunRequest(*req)
 	return res
 }
@@ -91,7 +91,7 @@ func RunRequest(req http.Request) string {
 
 func GetRequest(url string, referrer string, body io.ReadCloser) *http.Request {
 	defaults := DefaultRequestOpts()
-	req, err := http.NewRequest(defaults.Method, common.Configuration().Env.TESTURL+url, body)
+	req, err := http.NewRequest(defaults.Method, common.Configuration().Env.BASEURL+url, body)
 	if err != nil {
 		panic(err)
 	}
