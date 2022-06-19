@@ -1,6 +1,7 @@
 package invoice
 
 import (
+	"invoicer/config"
 	"invoicer/pkg/common"
 	"io"
 	"io/ioutil"
@@ -9,23 +10,11 @@ import (
 	"strings"
 )
 
-type RequestOptsHeader struct {
-	Key   string
-	Value string
-}
-
-type RequestOpts struct {
-	Credentials string              `json:"credentials"`
-	Headers     []RequestOptsHeader `json:"headers"`
-	Method      string              `json:"method"`
-	Mode        string              `json:"mode"`
-}
-
-func DefaultRequestOpts() RequestOpts {
+func DefaultRequestOpts() common.RequestOpts {
 	config := common.Configuration()
-	return RequestOpts{
+	return common.RequestOpts{
 		Credentials: "include",
-		Headers: []RequestOptsHeader{
+		Headers: []common.RequestOptsHeader{
 			{Key: "Content-Type", Value: "application/x-www-form-urlencoded;charset=UTF-8"},
 			{Key: "Referrer", Value: config.Env.BASEURL + "/intragiris.html"},
 			{Key: "ReferrerPolicy", Value: "no-referrer-when-downgrade"},
@@ -44,15 +33,16 @@ func DefaultRequestOpts() RequestOpts {
 	}
 }
 
-func GetToken(username string, password string) string {
-	loginType := "anologin" //anologin:prod or login:test
-	if !common.Configuration().Env.PRODUCTION {
-		loginType = "login"
+func GetToken() string {
+	assoscmd := "login"
+	cfg := config.GetConfig()
+	var username, password string
+	username, password = cfg.Credentials.USERNAME, cfg.Credentials.PASSWORD
+	if config.CURRENT_ENV == "production" {
+		assoscmd = "anologin"
 	}
-
-	r := ioutil.NopCloser(strings.NewReader("assoscmd=" + loginType + "&rtype=json&userid=" + username + "&sifre=" + password + "&sifre2=" + password + "&parola=1&"))
-
-	req := GetRequest("/earsiv-services/assos-login/", common.Configuration().Env.BASEURL+"/earsiv-services/intragiris.html", r)
+	body_text := "assoscmd=" + assoscmd + "&rtype=json&userid=" + username + "&sifre2=" + password + "&parola=1&"
+	req := GetRequest("/earsiv-services/assos-login", AsReadCloser(body_text))
 	res := RunRequest(*req)
 	return res
 }
@@ -62,15 +52,15 @@ func Logout(token string) string {
 	if common.Configuration().Env.PRODUCTION {
 		env = "anologin"
 	}
-	body := ioutil.NopCloser((strings.NewReader("assoscmd=" + env + "&rtype=json&token=" + token + "&")))
-	req := GetRequest("/earsiv-services/assos-login", common.Configuration().Env.BASEURL+"/earsiv-services/intragiris.html", body)
+	body := "assoscmd=" + env + "&rtype=json&token=" + token + "&"
+	req := GetRequest("/earsiv-services/assos-login", AsReadCloser(body))
 	res := RunRequest(*req)
 	return res
 }
 
 func RunCommand(token string, command string, pageName string, data string) string {
 	body_text := "cmd=" + command + "&callid=" + common.GetUUID() + "&pageName=" + pageName + "&token=" + token + "&jp=" + url.QueryEscape(data)
-	req := GetRequest("/earsiv-services/dispatch", common.Configuration().Env.BASEURL+"/earsiv-services/login.jsp", ioutil.NopCloser(strings.NewReader(body_text)))
+	req := GetRequest("/earsiv-services/dispatch", AsReadCloser(body_text))
 	res := RunRequest(*req)
 	return res
 }
@@ -89,7 +79,11 @@ func RunRequest(req http.Request) string {
 	return string(b)
 }
 
-func GetRequest(url string, referrer string, body io.ReadCloser) *http.Request {
+func AsReadCloser(data string) io.ReadCloser {
+	return ioutil.NopCloser(strings.NewReader(data))
+}
+
+func GetRequest(url string, body io.ReadCloser) *http.Request {
 	defaults := DefaultRequestOpts()
 	req, err := http.NewRequest(defaults.Method, common.Configuration().Env.BASEURL+url, body)
 	if err != nil {

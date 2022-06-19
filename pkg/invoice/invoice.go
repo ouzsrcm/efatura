@@ -8,7 +8,7 @@ import (
 
 func Init() {
 	fmt.Println("started...")
-	token := GetToken("username", "password")
+	token := GetToken()
 	fmt.Print(token)
 }
 
