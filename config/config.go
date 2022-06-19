@@ -7,7 +7,7 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-const CURRENT_ENV = "dev"
+const CURRENT_ENV = "test"
 
 /*
 	PROD yada TEST config ayarları için dev_config.json dosyası çoğaltılır.
@@ -19,12 +19,12 @@ const CURRENT_ENV = "dev"
 
 type Config struct {
 	Env struct {
-		PRODUCTION bool
-		BASEURL    string
+		PRODUCTION bool   `json:"production"`
+		BASEURL    string `json:"baseurl"`
 	}
 	Credentials struct {
-		USERNAME string
-		PASSWORD string
+		USERNAME string `json:"username"`
+		PASSWORD string `json:"password"`
 	}
 	Commands []Command
 }

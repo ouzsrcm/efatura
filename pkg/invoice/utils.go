@@ -41,7 +41,7 @@ func GetToken() string {
 	if config.CURRENT_ENV == "production" {
 		assoscmd = "anologin"
 	}
-	body_text := "assoscmd=" + assoscmd + "&rtype=json&userid=" + username + "&sifre2=" + password + "&parola=1&"
+	body_text := "assoscmd=" + assoscmd + "&rtype=json&userid=" + username + "&sifre=" + password + "&sifre2=" + password + "&parola=1"
 	req := GetRequest("/earsiv-services/assos-login", AsReadCloser(body_text))
 	res := RunRequest(*req)
 	return res
@@ -66,7 +66,7 @@ func RunCommand(token string, command string, pageName string, data string) stri
 }
 
 func RunRequest(req http.Request) string {
-	client := &http.Client{}
+	client := new(http.Client)
 	res, err := client.Do(&req)
 	if err != nil {
 		panic(err)
