@@ -14,15 +14,31 @@ func Init() {
 	fmt.Println("tokenization...")
 	TOKEN = GetToken()
 	fmt.Print(TOKEN)
+
+	temp, draft := CreateDraftInvoice()
+	fmt.Println("temp: " + temp.FaturaUuid)
+	fmt.Println("draft: " + draft.FaturaUuid)
+
+	fmt.Println("get all invoices...")
+	invoices_json := GetAllInvoicesByDateRange(time.Now(), time.Now().Add(time.Hour*24*30))
+	fmt.Println(invoices_json)
 }
 
-func GetAllInvoicesByDateRange(token string, startdate time.Time, enddate time.Time) {
+func GetAllInvoicesByDateRange(startdate time.Time, enddate time.Time) string {
 	fmt.Println("get all invoices by date range...")
-
+	command := config.GetCommand("getAllInvoicesByDateRange")
+	data := map[string]interface{}{
+		"baslangic": startdate,
+		"bitis":     enddate,
+		"hangiTip":  "5000/30000",
+	}
+	data_json, _ := json.Marshal(data)
+	invoices_json := RunCommand(TOKEN, command.Name, command.Value, string(data_json))
+	return invoices_json
 }
 
-func CreateDraftInvoice() *Invoice {
-	invoice := &Invoice{
+func CreateDraftInvoice() (*Invoice, *Invoice) {
+	tempinvoice := &Invoice{
 		FaturaUuid:                   common.GetUUID(),
 		BelgeNumarasi:                "",
 		FaturaTarihi:                 "",
@@ -114,7 +130,7 @@ func CreateDraftInvoice() *Invoice {
 		OdenecekTutar:                "",
 		Not:                          "",
 	}
-	invoice.MalHizmetTable = append(invoice.MalHizmetTable, InvoiceDetail{
+	tempinvoice.MalHizmetTable = append(tempinvoice.MalHizmetTable, InvoiceDetail{
 		IskontoArttm:      "İskonto",
 		MalHizmet:         "",
 		Miktar:            "",
@@ -130,9 +146,15 @@ func CreateDraftInvoice() *Invoice {
 		KdvTutari:         "",
 		VergininKdvTutari: "",
 	})
-	invoice_byte, _ := json.Marshal(invoice)
+
+	invoice_byte, _ := json.Marshal(tempinvoice)
 	invoice_json := string(invoice_byte)
+
 	command := config.GetCommand("createDraftInvoice")
-	RunCommand(TOKEN, command.Name, command.Value, invoice_json)
-	return invoice
+
+	draft_text := RunCommand(TOKEN, command.Name, command.Value, invoice_json)
+	draft := Invoice{}
+	json.Unmarshal([]byte(draft_text), draft)
+
+	return tempinvoice, &draft
 }
