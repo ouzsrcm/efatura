@@ -18,6 +18,7 @@ type InvoiceDetail struct {
 }
 
 type Invoice struct {
+	ettn                         string          `json:"ettn"`
 	FaturaUuid                   string          `json:"faturaUuidstring"`
 	BelgeNumarasi                string          `json:"belgeNumarasi"`
 	FaturaTarihi                 string          `json:"faturaTarihi"`

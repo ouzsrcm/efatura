@@ -6,6 +6,8 @@ import (
 	"invoicer/config"
 	"invoicer/pkg/common"
 	"time"
+
+	"golang.org/x/exp/slices"
 )
 
 var TOKEN string
@@ -14,14 +16,52 @@ func Init() {
 	fmt.Println("tokenization...")
 	TOKEN = GetToken()
 	fmt.Print(TOKEN)
+}
 
-	temp, draft := CreateDraftInvoice()
-	fmt.Println("temp: " + temp.FaturaUuid)
-	fmt.Println("draft: " + draft.FaturaUuid)
+func SignDraftInvoice(draft Invoice) Invoice {
+	inv := FindInvioce(draft)
+	command := config.GetCommand("signDraftInvoice")
+	draft_json, error := json.Marshal(inv)
+	if error != nil {
+		panic(error)
+	}
+	data := map[string]interface{}{
+		"imzalanacaklar": string(draft_json),
+	}
+	data_json, _ := json.Marshal(data)
+	res := RunCommand(TOKEN, command.Name, command.Value, string(data_json))
+	var temp Invoice
+	err := json.Unmarshal([]byte(res), &temp)
+	if error != nil {
+		panic(err)
+	}
+	return temp
+}
 
-	fmt.Println("get all invoices...")
-	invoices_json := GetAllInvoicesByDateRange(time.Now(), time.Now().Add(time.Hour*24*30))
-	fmt.Println(invoices_json)
+func FindInvioce(draft Invoice) Invoice {
+	invoices := GetAllInvoicesByDateRange(common.ParseDate(draft.FaturaTarihi), common.ParseDate(draft.FaturaTarihi))
+	var temp []Invoice
+	err := json.Unmarshal([]byte(invoices), &temp)
+	if err != nil {
+		panic(err)
+	}
+	invoice := slices.IndexFunc(temp, func(inv Invoice) bool { return inv.ettn == draft.ettn })
+	if invoice == -1 {
+		panic("Fatura bulunamadı.")
+	}
+	return temp[invoice]
+}
+
+func GetAllInvoicesIssuedToMeByDateRange(startdate time.Time, enddate time.Time) string {
+	command := config.GetCommand("getAllInvoicesIssuedToMeByDateRange")
+	data := map[string]interface{}{
+		"baslangic": startdate,
+		"bitis":     enddate,
+		"hangiTip":  "5000/30000",
+	}
+	data_json, _ := json.Marshal(data)
+	invoices_json := RunCommand(TOKEN, command.Name, command.Value, string(data_json))
+	return invoices_json
 }
 
 func GetAllInvoicesByDateRange(startdate time.Time, enddate time.Time) string {
